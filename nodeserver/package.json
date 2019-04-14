@@ -1,0 +1,19 @@
+{
+  "name": "nodeserver",
+  "version": "1.0.0",
+  "description": "Node server which acts as a MicroService for providing JSON to react applications",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raja Srikar Karthik Chinta",
+  "license": "ISC",
+  "dependencies": {
+    "consolidate": "^0.15.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-ejs-layouts": "^2.5.0",
+    "mysql": "^2.16.0"
+  }
+}
