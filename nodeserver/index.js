@@ -5,6 +5,7 @@ const engines = require('consolidate')
 const expressLayouts = require('express-ejs-layouts')
 const mysql = require('mysql')
 var cors = require('cors')
+var dns = require ('dns')
 
 app.use(cors()) // Use this after the variable declaration
 //DB connection to MYSQL database server
@@ -27,6 +28,11 @@ app.get('/persons', (req, res) => {
         }
     })
     // connection.end();
+})
+app.get('/',(reqres)=>{
+    dns.lookup("linkedin.com",(err,address,family)=>{
+        console.log("DNS lookup ip:"+address+" family:"+family)
+    })
 })
 
 // Listen for an application request on port 8081

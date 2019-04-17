@@ -12,6 +12,7 @@
   "dependencies": {
     "consolidate": "^0.15.1",
     "cors": "^2.8.5",
+    "dns": "^0.2.2",
     "express": "^4.16.4",
     "express-ejs-layouts": "^2.5.0",
     "mysql": "^2.16.0"
