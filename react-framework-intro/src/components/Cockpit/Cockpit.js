@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import classes from './Cockpit.css';
-
+import AuthContext from '../../context/auth-context'
 const cockpit = (props) => {
+  const toggleBtnRef = useRef(null);
+  const authContext = useContext(AuthContext);
+
+  console.log("authenticated"+authContext.authenticated)
+
   useEffect(() => {
+    toggleBtnRef.current.click();
     console.log('[Cockpit.js] 1st useEffect')
-    const timer = 
-     setTimeout(() => {
-      alert('Saved to cloud!')
-    }, 1000)
+    // const timer = 
+    //  setTimeout(() => {
+    //   alert('Saved to cloud!')
+    // }, 1000)
     return (() => {
-      clearTimeout(timer)
+      // clearTimeout(timer)
       console.log('[Cockpit.js] cleanup using 1st useEffect')
     })
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('[Cockpit.js] 2nd useEffect')
     console.log('[Cockpit.js] cleanup using 2nd useEffect')
   })
@@ -34,7 +40,10 @@ const cockpit = (props) => {
   return (
     <div className={classes.Cockpit}>
       <p className={assignedClasses.join(' ')}>This is a sample text for practicing styling</p>
-      <button className={btnClass} onClick={props.clicked}>Toggle persons</button>
+      <button ref={toggleBtnRef} className={btnClass} onClick={props.clicked}>Toggle persons</button>
+      <AuthContext.Consumer>{(context)=><button onClick={context.login}>Login</button>}
+        
+      </AuthContext.Consumer>
     </div>
   );
 }

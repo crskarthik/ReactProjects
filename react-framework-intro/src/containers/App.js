@@ -8,6 +8,9 @@ import styles from './App.css';
 // import Error404 from '../components/Error404';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit'
+import withClass from '../hoc/withClass'
+import Aux from '../hoc/Auxilary'
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
   state = {
@@ -17,7 +20,9 @@ class App extends Component {
       {id:'asdf3',name:'Karthik',age:22},
     ],
     showPersons: false,
-    showCockpit:true
+    showCockpit:true,
+    changeCounter:0,
+    authenticated:false
   }
   static getDerivedStateFromProps(props,state){
     console.log('[App.js] getDerivedStateFromProps')
@@ -53,25 +58,30 @@ class App extends Component {
     person.name = event.target.value;
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-    this.setState({
-      persons: persons
+    this.setState((prevState,props)=>{
+      return{
+      persons: persons,
+      changeCounter:prevState.changeCounter+1
+      }
     })
   }
   togglePersonsHandler = () => {
-    // !this.state.showPersons?this.setState({showPersons:true}): this.setState({showPersons:false})
     const currentState = this.state.showPersons
     this.setState({ showPersons: !currentState })
-
   }
 
   deletePersonHandler = (personsId) => {
-    // const persons = this.state.persons.slice();
     console.log(personsId)
     const persons = [...this.state.persons];
     const personIndex = this.state.persons.findIndex(p => p.id === personsId)
     persons.splice(personIndex, 1);
     this.setState({
       persons: persons
+    })
+  }
+  loginHandler=()=>{
+    this.setState({
+      authenticated:true
     })
   }
   render() {
@@ -82,7 +92,9 @@ class App extends Component {
         <Persons
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.changeNameHandler.bind(this)} />
+          changed={this.changeNameHandler.bind(this)} 
+          isAuthenticated={this.state.authenticated}
+          />
     }
 
     return (
@@ -100,20 +112,28 @@ class App extends Component {
       //     <Route path="/info" component={Info} />
       //     <Route path="/*" component={Error404} />
       //   </div>
-      <div className={styles.App}>
+      <Aux classes={styles.App}>
       <button onClick={()=>this.setState({showCockpit:false})}>Remove Cockpit</button>
+      <AuthContext.Provider 
+              value={{
+                authenticated:this.state.authenticated,
+                login:this.loginHandler
+                }}
+      >
         {this.state.showCockpit ? 
         <Cockpit
           showPersons={this.state.showPersons}
           personsLength={this.state.persons.length}
-          clicked={this.togglePersonsHandler} /> 
+          clicked={this.togglePersonsHandler}
+          /> 
         :null}
         {persons}
-      </div>
+        </AuthContext.Provider>
+      </Aux>
       // <Info click={this.switchNameHandler.bind(this)} /> 
       // </Router>
     );
   }
 }
 
-export default App;
+export default withClass(App,styles.App);

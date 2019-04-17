@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Person from './Person/Person'
 
+
 class Persons extends Component {
   // static getDerivedStateFromProps(props,state){
   //   console.log('[Persons.js] get Derived state from props')    
@@ -11,30 +12,36 @@ class Persons extends Component {
   //   console.log('[Persons.js] componentWillReceiveProps')    
   // }
 
-  shouldComponentUpdate(nextProps,nextState){
+  shouldComponentUpdate(nextProps, nextState) {
     console.log('[Persons.js] should Component update')
-    return !(nextProps.persons!==this.props.persons)
+    console.log(nextProps.persons !== this.props.persons)
+    console.log(nextProps.changed !== this.props.changed)
+
+    return (nextProps.persons !== this.props.persons ||
+      nextProps.changed !== this.props.changed ||
+      nextProps.clicked !== this.props.clicked
+    )
     // return true
   }
 
-  getSnapshotBeforeUpdate(prevProps,prevState){
+  getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log('[Persons.js] getSnapshotBeforeUpdate')
-    return {message:window.pageYOffset}
+    return { message: window.pageYOffset }
     // return {message:'Snapshot!'} 
   }
 
-  componentDidUpdate(prevProps,prevState,snapshot){
+  componentDidUpdate(prevProps, prevState, snapshot) {
     console.log('[Persons.js] componentDidUpdate')
     console.log(snapshot)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     console.log('[Persons.js] componentWillUnmount')
   }
 
   render() {
     console.log('[Persons.js] rendering...')
-    return (this.props.persons.map((person, index) => {
+    return this.props.persons.map((person, index) => {
       return (
         <Person
           changed={(event) => this.props.changed(event, person.id)}
@@ -43,9 +50,11 @@ class Persons extends Component {
           key={person.id}
           id={person.id}
           delete={() => this.props.clicked(person.id)}
+          
         />
       )
-    }))
+    })
+    
   }
 }
 export default Persons;
