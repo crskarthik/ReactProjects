@@ -20,7 +20,10 @@ class NewPost extends Component {
             console.log(response)
         })
     }
-
+componentDidMount(){
+    console.log(this.props);
+    
+}
     render () {
         return (
             <div className="NewPost">
