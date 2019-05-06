@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Blog />
+          <Blog {...this.props}/>
         </div>
       </BrowserRouter>
     );

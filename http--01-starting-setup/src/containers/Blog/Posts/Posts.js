@@ -14,6 +14,7 @@ class Posts extends React.Component {
 
         axios.get('/posts')
             .then(response => {
+                console.log(response)
                 const posts = response.data.slice(0, 4)
                 const updatedPosts = posts.map(post => {
                     return {
