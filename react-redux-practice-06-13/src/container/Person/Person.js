@@ -5,7 +5,7 @@ class Person extends Component {
     render() {
         return (
             <div>
-                <p>Persons</p>
+                <h3>Persons</h3>
                 <br/>
                 <p>Name: {this.props.pName}</p>
                 <p>Age: {this.props.pAge}</p>
